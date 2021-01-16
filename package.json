@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js"
+    "start": "nodemon index.js"
   },
   "author": "Ilias El Makrini",
   "license": "ISC",
@@ -15,6 +15,8 @@
     "dotenv": "^8.2.0"
   },
   "devDependencies": {
-    "@prisma/cli": "^2.14.0"
+    "@prisma/cli": "^2.14.0",
+    "nodemon": "^2.0.7",
+    "standard": "^16.0.3"
   }
 }

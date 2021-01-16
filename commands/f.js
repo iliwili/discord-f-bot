@@ -1,7 +1,7 @@
 module.exports = {
-    name: '!f',
-    description: 'F!',
-    async execute(msg, args) {
-        msg.reply('paid respect!!');
-    },
-};
+  name: '!f',
+  description: 'F!',
+  async execute (msg, args) {
+    msg.reply('paid respect!!')
+  }
+}

@@ -19,7 +19,7 @@ bot.on('guildCreate', async g => {
   const guild = await getGuild(g.id)
 
   if (guild != null) {
-    console.log('We joined that already exists!')
+    console.log('We joined a server that already exists!')
   } else {
     const newGuild = await createGuild({
       id: g.id,

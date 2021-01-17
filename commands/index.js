@@ -1,3 +1,4 @@
 module.exports = {
-  F: require('./f')
+  F: require('./f'),
+  Init: require('./init')
 }

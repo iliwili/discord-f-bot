@@ -1,3 +1,4 @@
+/* eslint @typescript-eslint/no-var-requires: "off" */
 import { Message, Client, Collection } from 'discord.js'
 import { readdir } from 'fs'
 
@@ -23,7 +24,7 @@ export default class DiscordService {
   }
 
   initialiseCommands (): void {
-    readdir('./commands/', (err: any, files: string[]) => {
+    readdir('src/commands/', (err: any, files: string[]) => {
       if (err != null) console.log(err)
       if (files.length <= 0) console.log('No commands found!')
       else {

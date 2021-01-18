@@ -9,7 +9,6 @@
     "lib": ["es2016", "esnext.asynciterable"]
   },
   "include": [
-    "index.ts",
-    "commands/*.ts"
-, "discord/discord.ts"  ]
+    "src/*.ts"
+  ]
 }

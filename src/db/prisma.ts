@@ -1,10 +1,10 @@
 import { PrismaClient } from '@prisma/client'
 
 export default class Prisma {
-  prisma: PrismaClient
+  prisma!: PrismaClient
 
   constructor () {
-    this.prisma = new PrismaClient()
+    this.connectToDb()
   }
 
   connectToDb (): void {

@@ -1,5 +1,6 @@
+/* eslint @typescript-eslint/no-misused-promises: "off" */
 import dotenv from 'dotenv'
-import DiscordService from './discord/discord'
+import DiscordService from './discord/discordService'
 import Prisma from './db/prisma'
 import { GuildRepo } from './db/repository/guildRepo'
 
@@ -15,7 +16,7 @@ prisma.connectToDb()
 const guildRepo = new GuildRepo()
 
 client.bot.on('ready', () => {
-  console.log(`${client.bot.user?.tag} is active in ${client.bot.guilds.cache.size} ${client.bot.guilds.cache.size === 1 ? 'server' : 'servers'}!`)
+  console.log(`${client.bot.user?.tag ?? 'Bot'} is active in ${client.bot.guilds.cache.size} ${client.bot.guilds.cache.size === 1 ? 'server' : 'servers'}!`)
 })
 
 client.bot.on('guildCreate', async g => {

@@ -1,5 +1,5 @@
-import { Guild } from '../models/guild'
 import Prisma from '../prisma'
+import { Guild } from '../models'
 
 export class GuildRepo {
   prisma: Prisma

@@ -8,16 +8,18 @@ generator client {
 }
 
 model Guild {
-  id        String       @id
+  id        String    @id
   name      String
   joined    DateTime  @default(now())
-  user      User[]
+  init      Boolean   @default(false)
+  users      User[]
 }
 
 model User {
-  id        String       @id
+  id        String    @id
   name      String
-  fCount    Int
+  tag       String
+  fCount    Int       @default(0)
   guild     Guild     @relation(fields: [guildId], references: [id])
   guildId   String
 }

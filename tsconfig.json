@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "commonjs",
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["es2016", "esnext.asynciterable"]
+  },
+  "include": [
+    "index.ts",
+    "commands/*.ts"
+, "discord/discord.ts"  ]
+}

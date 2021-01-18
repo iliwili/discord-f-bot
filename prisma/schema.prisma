@@ -12,7 +12,7 @@ model Guild {
   name      String
   joined    DateTime  @default(now())
   init      Boolean   @default(false)
-  users      User[]
+  users     User[]
 }
 
 model User {

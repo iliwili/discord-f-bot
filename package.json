@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --exec ts-node ./src/index.ts --watch src --ext .ts"
+    "dev": "nodemon --exec ts-node ./src/index.ts --watch src --ext .ts",
+    "start": "ts-node src/index.ts"
   },
   "author": "Ilias El Makrini",
   "license": "ISC",

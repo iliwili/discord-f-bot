@@ -7,11 +7,11 @@ interface Guild {
 }
 
 interface User {
-  id: String
-  name: String
-  tag: String
-  fCount: Number
-  guildId: String
+  id: string
+  name: string
+  tag: string
+  fCount?: number
+  guildId: string
 }
 
 export { Guild, User }

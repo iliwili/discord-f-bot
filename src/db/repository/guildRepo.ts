@@ -1,7 +1,7 @@
 import Prisma from '../prisma'
 import { Guild } from '../models'
 
-export class GuildRepo {
+export default class GuildRepo {
   prisma: Prisma
 
   constructor () {
@@ -25,6 +25,17 @@ export class GuildRepo {
       data: {
         id: guild.id,
         name: guild.name
+      }
+    })
+  }
+
+  async updateGuild (id: string, init: boolean): Promise<Guild> {
+    return await this.prisma.getDB().guild.update({
+      where: {
+        id: id
+      },
+      data: {
+        init: init
       }
     })
   }

@@ -1,7 +1,7 @@
 import Prisma from '../prisma'
 import { User } from '../models'
 
-export class UserRepo {
+export default class UserRepo {
   prisma: Prisma
 
   constructor () {
@@ -10,5 +10,16 @@ export class UserRepo {
 
   async getUsers (): Promise<User[]> {
     return await this.prisma.getDB().user.findMany()
+  }
+
+  async createUser (user: User): Promise<User> {
+    return await this.prisma.getDB().user.create({
+      data: {
+        id: user.id,
+        name: user.name,
+        tag: user.tag,
+        guild: { connect: { id: user.guildId } }
+      }
+    })
   }
 }

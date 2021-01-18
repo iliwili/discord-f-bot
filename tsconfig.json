@@ -9,6 +9,6 @@
     "lib": ["es2016", "esnext.asynciterable"]
   },
   "include": [
-    "src/*.ts"
+    "src"
   ]
 }

@@ -63,7 +63,7 @@ async function initialiseGuild (msg: Message): Promise<void> {
 
     if (guild == null) return
     if (guild.init == null) return
-    
+
     if (guild.init === false) {
       await msg.guild?.members.fetch().then(members => {
         members.map(async member => {

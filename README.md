@@ -22,6 +22,12 @@ Commands:
 ```
 npm install
 ```
+Add a .env file with your discord bot token and database url
+```
+BOT_TOKEN={bot_token}
+DATABASE_URL={mysql_db_url}
+```
+Start the project
 ```
 npm run start
 ```

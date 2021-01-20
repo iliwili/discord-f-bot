@@ -9,6 +9,7 @@
     <a href="https://www.npmjs.com/package/ts-standard"><img src="https://badgen.net/badge/icon/v6.14.11?icon=npm&label=npm"></a>
     <a href="https://github.com/standard/standard/blob/master/LICENSE"><img src="https://badgen.net/badge/icon/MIT?icon&label=license"></a>
     <a href="https://github.com/standard/ts-standard"><img src="https://badgen.net/badge/icon/typescript?icon=typescript&label=code-style" alt="typescript code style"></a>
+    <a href="https://www.prisma.io/"><img src="https://badgen.net/badge/icon/v2.14.0?icon&label=prisma"></a>
 </p>
 
 ## Tech/framework used

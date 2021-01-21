@@ -12,6 +12,14 @@ export default class UserRepo {
     return await this.prisma.getDB().user.findMany()
   }
 
+  async getUser (id: string): Promise<User | null> {
+    return await this.prisma.getDB().user.findUnique({
+      where: {
+        id: id
+      }
+    })
+  }
+
   async createUser (user: User): Promise<User> {
     return await this.prisma.getDB().user.create({
       data: {
@@ -19,6 +27,17 @@ export default class UserRepo {
         name: user.name,
         tag: user.tag,
         guild: { connect: { id: user.guildId } }
+      }
+    })
+  }
+
+  async updateUser (id: string, count: number): Promise<User> {
+    return await this.prisma.getDB().user.update({
+      where: {
+        id: id
+      },
+      data: {
+        fCount: count
       }
     })
   }

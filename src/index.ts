@@ -4,7 +4,7 @@ import DiscordService from './discord/discordService'
 import Prisma from './db/prisma'
 import GuildRepo from './db/repository/guildRepo'
 import UserRepo from './db/repository/userRepo'
-import {  Message } from 'discord.js'
+import { Message } from 'discord.js'
 import { Guild, User } from './db/models'
 
 dotenv.config()
@@ -38,18 +38,17 @@ client.bot.on('guildCreate', async g => {
   }
 })
 
-// TODO: delete user if he gets banned from server NOT 'leaves'
-client.bot.on("guildBanAdd", async (g, u) => {
+client.bot.on('guildBanAdd', async (g, u) => {
   const user = await userRepo.getUser(u.id, g.id)
   if (user === null) return
 
   if (user.id !== undefined) {
     await userRepo.deleteUser(user.id).then(user => console.log(`a member is banned from guild ${g.name} + ${user.tag}`))
   }
-});
+})
 
-client.bot.on("guildMemberAdd", async m => {
-  const user = await userRepo.getUser(m.user.id, m.guild.id);
+client.bot.on('guildMemberAdd', async m => {
+  const user = await userRepo.getUser(m.user.id, m.guild.id)
 
   if (user == null) {
     await userRepo.createUser({
@@ -58,44 +57,51 @@ client.bot.on("guildMemberAdd", async m => {
       tag: m.user.tag,
       guildId: m.guild.id
     }).then((u: User) => {
-      console.log(`a user joins a guild: ${u.tag}`);
+      console.log(`a user joins a guild: ${u.tag}`)
     })
   }
 })
 
 client.bot.on('message', async (msg: Message) => {
-  const args = msg.content.split(/ +/)  
+  const args = msg.content.split(/ +/)
 
   const execCommand = client.commands.get(args[0])
-  if (execCommand == null) return
-  
+
+  if (execCommand === undefined) return
+  if (msg.author.bot) return
+
   try {
     await initialiseGuild(msg).catch(err => console.log(err))
+
     execCommand(msg, args)
   } catch (error) {
     console.error(error)
     msg.reply('there was an error trying to execute that command!').then(() => {}).catch(() => console.log('error sending this message'))
   }
 })
-
+/**
+ * initialise a guild
+ * @param  {Message} msg
+ * @returns Promise<void>
+ */
 async function initialiseGuild (msg: Message): Promise<void> {
   let guild: Guild | null
-  
+
   if (msg.guild != null) {
     guild = await guildRepo.getGuild(msg.guild.id)
 
     if (guild == null) return
-    if (guild.init == null) return    
-    
+    if (guild.init == null) return
+
     if (guild.init === false) {
-      await msg.guild?.members.fetch().then(members => {        
+      await msg.guild?.members.fetch().then(members => {
         members.filter(member => !member.user.bot).map(async member => {
-            await userRepo.createUser({
-              discId: member.user.id,
-              name: member.user.username,
-              tag: member.user.tag,
-              guildId: guild?.id ?? ''
-            })
+          await userRepo.createUser({
+            discId: member.user.id,
+            name: member.user.username,
+            tag: member.user.tag,
+            guildId: guild?.id ?? ''
+          })
         })
       })
 

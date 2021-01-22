@@ -8,10 +8,11 @@ export default class GuildRepo {
     this.prisma = new Prisma()
   }
 
-  async getAllGuilds (): Promise<Guild[]> {
-    return await this.prisma.getDB().guild.findMany()
-  }
-
+  /**
+   * get a guild
+   * @param  {string} id the id of the guild
+   * @returns Promise<Guild | null>
+   */
   async getGuild (id: string): Promise<Guild | null> {
     return await this.prisma.getDB().guild.findUnique({
       where: {
@@ -20,6 +21,11 @@ export default class GuildRepo {
     })
   }
 
+  /**
+   * create a guild
+   * @param  {Guild} guild
+   * @returns Promise<Guild>
+   */
   async createGuild (guild: Guild): Promise<Guild> {
     return await this.prisma.getDB().guild.create({
       data: {
@@ -29,6 +35,12 @@ export default class GuildRepo {
     })
   }
 
+  /**
+   * update a guild
+   * @param  {string} id the id of the guild
+   * @param  {boolean} init the init variable of a guild
+   * @returns Promise<Guild>
+   */
   async updateGuild (id: string, init: boolean): Promise<Guild> {
     return await this.prisma.getDB().guild.update({
       where: {
@@ -40,6 +52,11 @@ export default class GuildRepo {
     })
   }
 
+  /**
+   * delete a guild
+   * @param  {string} id the id of the guild
+   * @returns Promise<Guild>
+   */
   async deleteGuild (id: string): Promise<Guild> {
     return await this.prisma.getDB().guild.delete({
       where: {

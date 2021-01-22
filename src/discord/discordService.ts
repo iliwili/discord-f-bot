@@ -5,13 +5,14 @@ import { readdir } from 'fs'
 export default class DiscordService {
   bot: Client
   token: string
+
   commands: Collection<string, (msg: Message, args: string[]) => any>
 
   constructor () {
     const intents = new Intents([
-      Intents.NON_PRIVILEGED, // include all non-privileged intents, would be better to specify which ones you actually need
-      "GUILD_MEMBERS", // lets you request guild members (i.e. fixes the issue)
-    ]);
+      Intents.NON_PRIVILEGED,
+      'GUILD_MEMBERS'
+    ])
     this.bot = new Client({ ws: { intents } })
     this.token = process.env.BOT_TOKEN ?? ''
     this.commands = new Collection()
@@ -21,12 +22,20 @@ export default class DiscordService {
     this.initialiseCommands()
   }
 
+  /**
+   * login the bot
+   * @returns void
+   */
   login (): void {
     this.bot.login(this.token)
       .then(() => console.log('Bot logged in!'))
       .catch(err => console.log(err))
   }
 
+  /**
+   * initialise the created commands
+   * @returns void
+   */
   initialiseCommands (): void {
     readdir('src/commands/', (err: any, files: string[]) => {
       if (err != null) console.log(err)

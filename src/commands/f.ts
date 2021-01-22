@@ -5,12 +5,14 @@ export const name = 'f'
 
 const userRepo = new UserRepo()
 
-export async function execute (msg: Message, args: string[]): Promise<void> {  
+export async function execute (msg: Message, args: string[]): Promise<void> {
   if (msg.guild === null) return
 
   const user = await userRepo.getUser(msg.author.id, msg.guild?.id)
-  
+
   if (user == null) return
+
+  if (msg.author.bot) return
 
   if (user.fCount !== undefined) {
     if (user.id === undefined) return

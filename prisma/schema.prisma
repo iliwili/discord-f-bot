@@ -16,7 +16,8 @@ model Guild {
 }
 
 model User {
-  id        String    @id
+  id        Int       @id @default(autoincrement())
+  discId    String
   name      String
   tag       String
   fCount    Int       @default(0)

@@ -4,8 +4,8 @@ import DiscordService from './discord/discordService'
 import Prisma from './db/prisma'
 import GuildRepo from './db/repository/guildRepo'
 import UserRepo from './db/repository/userRepo'
-import { Message } from 'discord.js'
-import { Guild } from './db/models'
+import {  Message } from 'discord.js'
+import { Guild, User } from './db/models'
 
 dotenv.config()
 
@@ -38,12 +38,37 @@ client.bot.on('guildCreate', async g => {
   }
 })
 
+// TODO: delete user if he gets banned from server NOT 'leaves'
+client.bot.on("guildBanAdd", async (g, u) => {
+  const user = await userRepo.getUser(u.id, g.id)
+  if (user === null) return
+
+  if (user.id !== undefined) {
+    await userRepo.deleteUser(user.id).then(user => console.log(`a member is banned from guild ${g.name} + ${user.tag}`))
+  }
+});
+
+client.bot.on("guildMemberAdd", async m => {
+  const user = await userRepo.getUser(m.user.id, m.guild.id);
+
+  if (user == null) {
+    await userRepo.createUser({
+      discId: m.user.id,
+      name: m.user.username,
+      tag: m.user.tag,
+      guildId: m.guild.id
+    }).then((u: User) => {
+      console.log(`a user joins a guild: ${u.tag}`);
+    })
+  }
+})
+
 client.bot.on('message', async (msg: Message) => {
-  const args = msg.content.split(/ +/)
+  const args = msg.content.split(/ +/)  
 
-  const execCommand = client.commands.find((r, n) => n.includes(args[0]))
+  const execCommand = client.commands.get(args[0])
   if (execCommand == null) return
-
+  
   try {
     await initialiseGuild(msg).catch(err => console.log(err))
     execCommand(msg, args)
@@ -53,29 +78,24 @@ client.bot.on('message', async (msg: Message) => {
   }
 })
 
-// TODO: delete user if he gets banned from server NOT 'leaves'
-
 async function initialiseGuild (msg: Message): Promise<void> {
   let guild: Guild | null
-
+  
   if (msg.guild != null) {
     guild = await guildRepo.getGuild(msg.guild.id)
 
     if (guild == null) return
-    if (guild.init == null) return
-
+    if (guild.init == null) return    
+    
     if (guild.init === false) {
-      await msg.guild?.members.fetch().then(members => {
-        members.map(async member => {
-          if (member.user.bot) {
+      await msg.guild?.members.fetch().then(members => {        
+        members.filter(member => !member.user.bot).map(async member => {
             await userRepo.createUser({
-              id: member.user.id,
+              discId: member.user.id,
               name: member.user.username,
               tag: member.user.tag,
-              // this can be better i guess
               guildId: guild?.id ?? ''
             })
-          }
         })
       })
 

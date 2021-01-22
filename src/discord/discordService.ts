@@ -1,5 +1,5 @@
 /* eslint @typescript-eslint/no-var-requires: "off" */
-import { Message, Client, Collection } from 'discord.js'
+import { Intents, Message, Client, Collection } from 'discord.js'
 import { readdir } from 'fs'
 
 export default class DiscordService {
@@ -8,7 +8,11 @@ export default class DiscordService {
   commands: Collection<string, (msg: Message, args: string[]) => any>
 
   constructor () {
-    this.bot = new Client()
+    const intents = new Intents([
+      Intents.NON_PRIVILEGED, // include all non-privileged intents, would be better to specify which ones you actually need
+      "GUILD_MEMBERS", // lets you request guild members (i.e. fixes the issue)
+    ]);
+    this.bot = new Client({ ws: { intents } })
     this.token = process.env.BOT_TOKEN ?? ''
     this.commands = new Collection()
 

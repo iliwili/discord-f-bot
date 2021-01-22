@@ -7,7 +7,8 @@ interface Guild {
 }
 
 interface User {
-  id: string
+  id?: number
+  discId: string
   name: string
   tag: string
   fCount?: number

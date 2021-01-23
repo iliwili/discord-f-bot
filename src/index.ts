@@ -62,7 +62,17 @@ client.bot.on('guildMemberAdd', async m => {
   }
 })
 
+const talkedRecently = new Set();
+
 client.bot.on('message', async (msg: Message) => {
+  if (talkedRecently.has(msg.author.id)) {
+    msg.channel.send("Not so fast brother!").then(sentMsg => {
+      sentMsg.delete({ timeout: 1000 })
+    })
+    
+    return
+  }
+
   const args = msg.content.split(/ +/)
 
   const execCommand = client.commands.get(args[0])
@@ -71,8 +81,13 @@ client.bot.on('message', async (msg: Message) => {
   if (msg.author.bot) return
 
   try {
-    await initialiseGuild(msg).catch(err => console.log(err))
+    talkedRecently.add(msg.author.id);
+    setTimeout(() => {
+      talkedRecently.delete(msg.author.id);
+    }, 3000);
 
+    await initialiseGuild(msg).catch(err => console.log(err))
+  
     execCommand(msg, args)
   } catch (error) {
     console.error(error)
@@ -84,7 +99,7 @@ client.bot.on('message', async (msg: Message) => {
  * @param  {Message} msg
  * @returns Promise<void>
  */
-async function initialiseGuild (msg: Message): Promise<void> {
+async function initialiseGuild (msg: Message): Promise<void> {  
   let guild: Guild | null
 
   if (msg.guild != null) {
